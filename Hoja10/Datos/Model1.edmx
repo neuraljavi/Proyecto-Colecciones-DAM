@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Hoja10Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Articulo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Precio" Type="money" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="FechaDeAdquisicion" Type="date" />
+          <Property Name="FechaDeSalida" Type="date" />
+          <Property Name="Imagen" Type="nchar" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="Colecciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="TipoDeArticulo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="RelColecArt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Colecciones" Type="int" />
+          <Property Name="id_Articulo" Type="int" />
+        </EntityType>
+        <Association Name="FK_RelColecArt_Articulo">
+          <End Role="Articulo" Type="Self.Articulo" Multiplicity="0..1" />
+          <End Role="RelColecArt" Type="Self.RelColecArt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelColecArt">
+              <PropertyRef Name="id_Articulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelColecArt_Colecciones">
+          <End Role="Colecciones" Type="Self.Colecciones" Multiplicity="0..1" />
+          <End Role="RelColecArt" Type="Self.RelColecArt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colecciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelColecArt">
+              <PropertyRef Name="id_Colecciones" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Hoja10ModelStoreContainer">
+          <EntitySet Name="Articulo" EntityType="Self.Articulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Colecciones" EntityType="Self.Colecciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RelColecArt" EntityType="Self.RelColecArt" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_RelColecArt_Articulo" Association="Self.FK_RelColecArt_Articulo">
+            <End Role="Articulo" EntitySet="Articulo" />
+            <End Role="RelColecArt" EntitySet="RelColecArt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelColecArt_Colecciones" Association="Self.FK_RelColecArt_Colecciones">
+            <End Role="Colecciones" EntitySet="Colecciones" />
+            <End Role="RelColecArt" EntitySet="RelColecArt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Hoja10Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Articulo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDeAdquisicion" Type="DateTime" Precision="0" />
+          <Property Name="FechaDeSalida" Type="DateTime" Precision="0" />
+          <Property Name="Imagen" Type="String" MaxLength="80" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="RelColecArt" Relationship="Self.FK_RelColecArt_Articulo" FromRole="Articulo" ToRole="RelColecArt" />
+        </EntityType>
+        <EntityType Name="Colecciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDeArticulo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RelColecArt" Relationship="Self.FK_RelColecArt_Colecciones" FromRole="Colecciones" ToRole="RelColecArt" />
+        </EntityType>
+        <EntityType Name="RelColecArt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Colecciones" Type="Int32" />
+          <Property Name="id_Articulo" Type="Int32" />
+          <NavigationProperty Name="Articulo" Relationship="Self.FK_RelColecArt_Articulo" FromRole="RelColecArt" ToRole="Articulo" />
+          <NavigationProperty Name="Colecciones" Relationship="Self.FK_RelColecArt_Colecciones" FromRole="RelColecArt" ToRole="Colecciones" />
+        </EntityType>
+        <Association Name="FK_RelColecArt_Articulo">
+          <End Role="Articulo" Type="Self.Articulo" Multiplicity="0..1" />
+          <End Role="RelColecArt" Type="Self.RelColecArt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelColecArt">
+              <PropertyRef Name="id_Articulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelColecArt_Colecciones">
+          <End Role="Colecciones" Type="Self.Colecciones" Multiplicity="0..1" />
+          <End Role="RelColecArt" Type="Self.RelColecArt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colecciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelColecArt">
+              <PropertyRef Name="id_Colecciones" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Hoja10Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Articulo" EntityType="Self.Articulo" />
+          <EntitySet Name="Colecciones" EntityType="Self.Colecciones" />
+          <EntitySet Name="RelColecArt" EntityType="Self.RelColecArt" />
+          <AssociationSet Name="FK_RelColecArt_Articulo" Association="Self.FK_RelColecArt_Articulo">
+            <End Role="Articulo" EntitySet="Articulo" />
+            <End Role="RelColecArt" EntitySet="RelColecArt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelColecArt_Colecciones" Association="Self.FK_RelColecArt_Colecciones">
+            <End Role="Colecciones" EntitySet="Colecciones" />
+            <End Role="RelColecArt" EntitySet="RelColecArt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Hoja10ModelStoreContainer" CdmEntityContainer="Hoja10Entities1">
+          <EntitySetMapping Name="Articulo">
+            <EntityTypeMapping TypeName="Hoja10Model.Articulo">
+              <MappingFragment StoreEntitySet="Articulo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="FechaDeAdquisicion" ColumnName="FechaDeAdquisicion" />
+                <ScalarProperty Name="FechaDeSalida" ColumnName="FechaDeSalida" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colecciones">
+            <EntityTypeMapping TypeName="Hoja10Model.Colecciones">
+              <MappingFragment StoreEntitySet="Colecciones">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="TipoDeArticulo" ColumnName="TipoDeArticulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RelColecArt">
+            <EntityTypeMapping TypeName="Hoja10Model.RelColecArt">
+              <MappingFragment StoreEntitySet="RelColecArt">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="id_Colecciones" ColumnName="id_Colecciones" />
+                <ScalarProperty Name="id_Articulo" ColumnName="id_Articulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
