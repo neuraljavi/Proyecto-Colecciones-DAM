@@ -1,3 +1,4 @@
+
 <h1>PROYECTO JIMCANA COLECCIONES DE COLECCIONES<h1>
 <h3>Breve descripción del proyecto<h3>
 <p>Breve proyecto de 2 semanas del tercer trimestre en el cuál trabajamos 6 personas.<p>
